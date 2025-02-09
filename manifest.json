@@ -1,11 +1,11 @@
 {
-	"id": "sample-plugin",
-	"name": "Sample Plugin",
+	"id": "execute-shell",
+	"name": "Execute Shell",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Demonstrates some of the capabilities of the Obsidian API.",
-	"author": "Obsidian",
-	"authorUrl": "https://obsidian.md",
-	"fundingUrl": "https://obsidian.md/pricing",
-	"isDesktopOnly": false
+	"description": "Allows executing shell or powershell commands inside Obsidian notes.",
+	"author": "Liam Mitchell",
+	"authorUrl": "https://github.com/LiamKarlMitchell",
+	"fundingUrl": "https://github.com/LiamKarlMitchell/obsidian-execute-shell",
+	"isDesktopOnly": true
 }
