@@ -181,7 +181,7 @@ export default class MyPlugin extends Plugin {
 		// TODO: Prevent over fetching if between code blocks.
 
 		// Check if we found a valid code block
-		if (startLine >= 0 && endLine < editor.lineCount() && startLine !== endLine) {
+		if (startLine >= 0 && endLine <= editor.lineCount() && startLine !== endLine) {
 			const languageMatch = editor.getLine(startLine).match(/```(\w+)/);
 			if (languageMatch) {
 				const language = languageMatch[1];
