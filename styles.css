@@ -16,35 +16,35 @@ If your plugin does not need CSS, delete this file.
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	width: 100%;
+	right: 0;
 	background: #1e1e1e;
 	color: #d4d4d4;
 	font-family: monospace;
-	padding: 10px;
 	box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5);
 	z-index: 1000;
 }
 
 .terminal-output {
-	font-family: "Courier New", Courier, monospace;
-	background-color: #1e1e1e;
-	color: #d4d4d4;
-	padding: 10px;
-	border-radius: 5px;
+	/* font-family: "Courier New", Courier, monospace; */
+	/* background-color: #1e1e1e; */
+	/* color: #d4d4d4; */
+	/* padding: 10px;
+	border-radius: 5px; */
 	overflow-y: auto;
-	max-height: 200px;
-	max-width: 70vw;
-	white-space: pre-wrap;
+	max-height: 300px;
+	max-width: 100%;
+	/* white-space: pre-wrap; */
 	user-select: text;
-	word-wrap: break-word;
+	/* word-wrap: break-word; */
+	height: 300px; /* Ensure the terminal has a fixed height */
 }
-
+/* 
 .terminal-output pre {
 	margin: 0;
 	white-space: pre-wrap;
 	word-wrap: break-word;
 	overflow-y: auto;
-}
+} */
 
 .terminal-status {
 	margin-top: 10px;
@@ -77,3 +77,207 @@ If your plugin does not need CSS, delete this file.
 	word-wrap: break-word;
 	overflow-y: auto;
 }
+
+/* Note: I can't find how to import this css from node_module so pasting it in here */
+/* node_modules/@xterm/xterm/css/xterm.css */
+.xterm {
+	cursor: text;
+	position: relative;
+	user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+  }
+  .xterm.focus,
+  .xterm:focus {
+	outline: none;
+  }
+  .xterm .xterm-helpers {
+	position: absolute;
+	top: 0;
+	z-index: 5;
+  }
+  .xterm .xterm-helper-textarea {
+	padding: 0;
+	border: 0;
+	margin: 0;
+	position: absolute;
+	opacity: 0;
+	left: -9999em;
+	top: 0;
+	width: 0;
+	height: 0;
+	z-index: -5;
+	white-space: nowrap;
+	overflow: hidden;
+	resize: none;
+  }
+  .xterm .composition-view {
+	background: #000;
+	color: #FFF;
+	display: none;
+	position: absolute;
+	white-space: nowrap;
+	z-index: 1;
+  }
+  .xterm .composition-view.active {
+	display: block;
+  }
+  .xterm .xterm-viewport {
+	background-color: #000;
+	overflow-y: scroll;
+	cursor: default;
+	position: absolute;
+	right: 0;
+	left: 0;
+	top: 0;
+	bottom: 0;
+  }
+  .xterm .xterm-screen {
+	position: relative;
+  }
+  .xterm .xterm-screen canvas {
+	position: absolute;
+	left: 0;
+	top: 0;
+  }
+  .xterm .xterm-scroll-area {
+	visibility: hidden;
+  }
+  .xterm-char-measure-element {
+	display: inline-block;
+	visibility: hidden;
+	position: absolute;
+	top: 0;
+	left: -9999em;
+	line-height: normal;
+  }
+  .xterm.enable-mouse-events {
+	cursor: default;
+  }
+  .xterm.xterm-cursor-pointer,
+  .xterm .xterm-cursor-pointer {
+	cursor: pointer;
+  }
+  .xterm.column-select.focus {
+	cursor: crosshair;
+  }
+  .xterm .xterm-accessibility:not(.debug),
+  .xterm .xterm-message {
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	right: 0;
+	z-index: 10;
+	color: transparent;
+	pointer-events: none;
+  }
+  .xterm .xterm-accessibility-tree:not(.debug) *::selection {
+	color: transparent;
+  }
+  .xterm .xterm-accessibility-tree {
+	user-select: text;
+	white-space: pre;
+  }
+  .xterm .live-region {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+  }
+  .xterm-dim {
+	opacity: 1 !important;
+  }
+  .xterm-underline-1 {
+	text-decoration: underline;
+  }
+  .xterm-underline-2 {
+	text-decoration: double underline;
+  }
+  .xterm-underline-3 {
+	text-decoration: wavy underline;
+  }
+  .xterm-underline-4 {
+	text-decoration: dotted underline;
+  }
+  .xterm-underline-5 {
+	text-decoration: dashed underline;
+  }
+  .xterm-overline {
+	text-decoration: overline;
+  }
+  .xterm-overline.xterm-underline-1 {
+	text-decoration: overline underline;
+  }
+  .xterm-overline.xterm-underline-2 {
+	text-decoration: overline double underline;
+  }
+  .xterm-overline.xterm-underline-3 {
+	text-decoration: overline wavy underline;
+  }
+  .xterm-overline.xterm-underline-4 {
+	text-decoration: overline dotted underline;
+  }
+  .xterm-overline.xterm-underline-5 {
+	text-decoration: overline dashed underline;
+  }
+  .xterm-strikethrough {
+	text-decoration: line-through;
+  }
+  .xterm-screen .xterm-decoration-container .xterm-decoration {
+	z-index: 6;
+	position: absolute;
+  }
+  .xterm-screen .xterm-decoration-container .xterm-decoration.xterm-decoration-top-layer {
+	z-index: 7;
+  }
+  .xterm-decoration-overview-ruler {
+	z-index: 8;
+	position: absolute;
+	top: 0;
+	right: 0;
+	pointer-events: none;
+  }
+  .xterm-decoration-top {
+	z-index: 2;
+	position: relative;
+  }
+  /*! Bundled license information:
+  
+  @xterm/xterm/css/xterm.css:
+	(**
+	 * Copyright (c) 2014 The xterm.js authors. All rights reserved.
+	 * Copyright (c) 2012-2013, Christopher Jeffrey (MIT License)
+	 * https://github.com/chjj/term.js
+	 * @license MIT
+	 *
+	 * Permission is hereby granted, free of charge, to any person obtaining a copy
+	 * of this software and associated documentation files (the "Software"), to deal
+	 * in the Software without restriction, including without limitation the rights
+	 * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+	 * copies of the Software, and to permit persons to whom the Software is
+	 * furnished to do so, subject to the following conditions:
+	 *
+	 * The above copyright notice and this permission notice shall be included in
+	 * all copies or substantial portions of the Software.
+	 *
+	 * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+	 * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+	 * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+	 * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+	 * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+	 * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+	 * THE SOFTWARE.
+	 *
+	 * Originally forked from (with the author's permission):
+	 *   Fabrice Bellard's javascript vt100 for jslinux:
+	 *   http://bellard.org/jslinux/
+	 *   Copyright (c) 2011 Fabrice Bellard
+	 *   The original design remains. The terminal itself
+	 *   has been extended to include xterm CSI codes, among
+	 *   other features.
+	 *)
+  */
+  /*# sourceMappingURL=data:application/json;base64,ewogICJ2ZXJzaW9uIjogMywKICAic291cmNlcyI6IFsibm9kZV9tb2R1bGVzL0B4dGVybS94dGVybS9jc3MveHRlcm0uY3NzIl0sCiAgInNvdXJjZXNDb250ZW50IjogWyIvKipcbiAqIENvcHlyaWdodCAoYykgMjAxNCBUaGUgeHRlcm0uanMgYXV0aG9ycy4gQWxsIHJpZ2h0cyByZXNlcnZlZC5cbiAqIENvcHlyaWdodCAoYykgMjAxMi0yMDEzLCBDaHJpc3RvcGhlciBKZWZmcmV5IChNSVQgTGljZW5zZSlcbiAqIGh0dHBzOi8vZ2l0aHViLmNvbS9jaGpqL3Rlcm0uanNcbiAqIEBsaWNlbnNlIE1JVFxuICpcbiAqIFBlcm1pc3Npb24gaXMgaGVyZWJ5IGdyYW50ZWQsIGZyZWUgb2YgY2hhcmdlLCB0byBhbnkgcGVyc29uIG9idGFpbmluZyBhIGNvcHlcbiAqIG9mIHRoaXMgc29mdHdhcmUgYW5kIGFzc29jaWF0ZWQgZG9jdW1lbnRhdGlvbiBmaWxlcyAodGhlIFwiU29mdHdhcmVcIiksIHRvIGRlYWxcbiAqIGluIHRoZSBTb2Z0d2FyZSB3aXRob3V0IHJlc3RyaWN0aW9uLCBpbmNsdWRpbmcgd2l0aG91dCBsaW1pdGF0aW9uIHRoZSByaWdodHNcbiAqIHRvIHVzZSwgY29weSwgbW9kaWZ5LCBtZXJnZSwgcHVibGlzaCwgZGlzdHJpYnV0ZSwgc3VibGljZW5zZSwgYW5kL29yIHNlbGxcbiAqIGNvcGllcyBvZiB0aGUgU29mdHdhcmUsIGFuZCB0byBwZXJtaXQgcGVyc29ucyB0byB3aG9tIHRoZSBTb2Z0d2FyZSBpc1xuICogZnVybmlzaGVkIHRvIGRvIHNvLCBzdWJqZWN0IHRvIHRoZSBmb2xsb3dpbmcgY29uZGl0aW9uczpcbiAqXG4gKiBUaGUgYWJvdmUgY29weXJpZ2h0IG5vdGljZSBhbmQgdGhpcyBwZXJtaXNzaW9uIG5vdGljZSBzaGFsbCBiZSBpbmNsdWRlZCBpblxuICogYWxsIGNvcGllcyBvciBzdWJzdGFudGlhbCBwb3J0aW9ucyBvZiB0aGUgU29mdHdhcmUuXG4gKlxuICogVEhFIFNPRlRXQVJFIElTIFBST1ZJREVEIFwiQVMgSVNcIiwgV0lUSE9VVCBXQVJSQU5UWSBPRiBBTlkgS0lORCwgRVhQUkVTUyBPUlxuICogSU1QTElFRCwgSU5DTFVESU5HIEJVVCBOT1QgTElNSVRFRCBUTyBUSEUgV0FSUkFOVElFUyBPRiBNRVJDSEFOVEFCSUxJVFksXG4gKiBGSVRORVNTIEZPUiBBIFBBUlRJQ1VMQVIgUFVSUE9TRSBBTkQgTk9OSU5GUklOR0VNRU5ULiBJTiBOTyBFVkVOVCBTSEFMTCBUSEVcbiAqIEFVVEhPUlMgT1IgQ09QWVJJR0hUIEhPTERFUlMgQkUgTElBQkxFIEZPUiBBTlkgQ0xBSU0sIERBTUFHRVMgT1IgT1RIRVJcbiAqIExJQUJJTElUWSwgV0hFVEhFUiBJTiBBTiBBQ1RJT04gT0YgQ09OVFJBQ1QsIFRPUlQgT1IgT1RIRVJXSVNFLCBBUklTSU5HIEZST00sXG4gKiBPVVQgT0YgT1IgSU4gQ09OTkVDVElPTiBXSVRIIFRIRSBTT0ZUV0FSRSBPUiBUSEUgVVNFIE9SIE9USEVSIERFQUxJTkdTIElOXG4gKiBUSEUgU09GVFdBUkUuXG4gKlxuICogT3JpZ2luYWxseSBmb3JrZWQgZnJvbSAod2l0aCB0aGUgYXV0aG9yJ3MgcGVybWlzc2lvbik6XG4gKiAgIEZhYnJpY2UgQmVsbGFyZCdzIGphdmFzY3JpcHQgdnQxMDAgZm9yIGpzbGludXg6XG4gKiAgIGh0dHA6Ly9iZWxsYXJkLm9yZy9qc2xpbnV4L1xuICogICBDb3B5cmlnaHQgKGMpIDIwMTEgRmFicmljZSBCZWxsYXJkXG4gKiAgIFRoZSBvcmlnaW5hbCBkZXNpZ24gcmVtYWlucy4gVGhlIHRlcm1pbmFsIGl0c2VsZlxuICogICBoYXMgYmVlbiBleHRlbmRlZCB0byBpbmNsdWRlIHh0ZXJtIENTSSBjb2RlcywgYW1vbmdcbiAqICAgb3RoZXIgZmVhdHVyZXMuXG4gKi9cblxuLyoqXG4gKiAgRGVmYXVsdCBzdHlsZXMgZm9yIHh0ZXJtLmpzXG4gKi9cblxuLnh0ZXJtIHtcbiAgICBjdXJzb3I6IHRleHQ7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xuICAgIHVzZXItc2VsZWN0OiBub25lO1xuICAgIC1tcy11c2VyLXNlbGVjdDogbm9uZTtcbiAgICAtd2Via2l0LXVzZXItc2VsZWN0OiBub25lO1xufVxuXG4ueHRlcm0uZm9jdXMsXG4ueHRlcm06Zm9jdXMge1xuICAgIG91dGxpbmU6IG5vbmU7XG59XG5cbi54dGVybSAueHRlcm0taGVscGVycyB7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogMDtcbiAgICAvKipcbiAgICAgKiBUaGUgei1pbmRleCBvZiB0aGUgaGVscGVycyBtdXN0IGJlIGhpZ2hlciB0aGFuIHRoZSBjYW52YXNlcyBpbiBvcmRlciBmb3JcbiAgICAgKiBJTUVzIHRvIGFwcGVhciBvbiB0b3AuXG4gICAgICovXG4gICAgei1pbmRleDogNTtcbn1cblxuLnh0ZXJtIC54dGVybS1oZWxwZXItdGV4dGFyZWEge1xuICAgIHBhZGRpbmc6IDA7XG4gICAgYm9yZGVyOiAwO1xuICAgIG1hcmdpbjogMDtcbiAgICAvKiBNb3ZlIHRleHRhcmVhIG91dCBvZiB0aGUgc2NyZWVuIHRvIHRoZSBmYXIgbGVmdCwgc28gdGhhdCB0aGUgY3Vyc29yIGlzIG5vdCB2aXNpYmxlICovXG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIG9wYWNpdHk6IDA7XG4gICAgbGVmdDogLTk5OTllbTtcbiAgICB0b3A6IDA7XG4gICAgd2lkdGg6IDA7XG4gICAgaGVpZ2h0OiAwO1xuICAgIHotaW5kZXg6IC01O1xuICAgIC8qKiBQcmV2ZW50IHdyYXBwaW5nIHNvIHRoZSBJTUUgYXBwZWFycyBhZ2FpbnN0IHRoZSB0ZXh0YXJlYSBhdCB0aGUgY29ycmVjdCBwb3NpdGlvbiAqL1xuICAgIHdoaXRlLXNwYWNlOiBub3dyYXA7XG4gICAgb3ZlcmZsb3c6IGhpZGRlbjtcbiAgICByZXNpemU6IG5vbmU7XG59XG5cbi54dGVybSAuY29tcG9zaXRpb24tdmlldyB7XG4gICAgLyogVE9ETzogQ29tcG9zaXRpb24gcG9zaXRpb24gZ290IG1lc3NlZCB1cCBzb21ld2hlcmUgKi9cbiAgICBiYWNrZ3JvdW5kOiAjMDAwO1xuICAgIGNvbG9yOiAjRkZGO1xuICAgIGRpc3BsYXk6IG5vbmU7XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHdoaXRlLXNwYWNlOiBub3dyYXA7XG4gICAgei1pbmRleDogMTtcbn1cblxuLnh0ZXJtIC5jb21wb3NpdGlvbi12aWV3LmFjdGl2ZSB7XG4gICAgZGlzcGxheTogYmxvY2s7XG59XG5cbi54dGVybSAueHRlcm0tdmlld3BvcnQge1xuICAgIC8qIE9uIE9TIFggdGhpcyBpcyByZXF1aXJlZCBpbiBvcmRlciBmb3IgdGhlIHNjcm9sbCBiYXIgdG8gYXBwZWFyIGZ1bGx5IG9wYXF1ZSAqL1xuICAgIGJhY2tncm91bmQtY29sb3I6ICMwMDA7XG4gICAgb3ZlcmZsb3cteTogc2Nyb2xsO1xuICAgIGN1cnNvcjogZGVmYXVsdDtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgcmlnaHQ6IDA7XG4gICAgbGVmdDogMDtcbiAgICB0b3A6IDA7XG4gICAgYm90dG9tOiAwO1xufVxuXG4ueHRlcm0gLnh0ZXJtLXNjcmVlbiB7XG4gICAgcG9zaXRpb246IHJlbGF0aXZlO1xufVxuXG4ueHRlcm0gLnh0ZXJtLXNjcmVlbiBjYW52YXMge1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICBsZWZ0OiAwO1xuICAgIHRvcDogMDtcbn1cblxuLnh0ZXJtIC54dGVybS1zY3JvbGwtYXJlYSB7XG4gICAgdmlzaWJpbGl0eTogaGlkZGVuO1xufVxuXG4ueHRlcm0tY2hhci1tZWFzdXJlLWVsZW1lbnQge1xuICAgIGRpc3BsYXk6IGlubGluZS1ibG9jaztcbiAgICB2aXNpYmlsaXR5OiBoaWRkZW47XG4gICAgcG9zaXRpb246IGFic29sdXRlO1xuICAgIHRvcDogMDtcbiAgICBsZWZ0OiAtOTk5OWVtO1xuICAgIGxpbmUtaGVpZ2h0OiBub3JtYWw7XG59XG5cbi54dGVybS5lbmFibGUtbW91c2UtZXZlbnRzIHtcbiAgICAvKiBXaGVuIG1vdXNlIGV2ZW50cyBhcmUgZW5hYmxlZCAoZWcuIHRtdXgpLCByZXZlcnQgdG8gdGhlIHN0YW5kYXJkIHBvaW50ZXIgY3Vyc29yICovXG4gICAgY3Vyc29yOiBkZWZhdWx0O1xufVxuXG4ueHRlcm0ueHRlcm0tY3Vyc29yLXBvaW50ZXIsXG4ueHRlcm0gLnh0ZXJtLWN1cnNvci1wb2ludGVyIHtcbiAgICBjdXJzb3I6IHBvaW50ZXI7XG59XG5cbi54dGVybS5jb2x1bW4tc2VsZWN0LmZvY3VzIHtcbiAgICAvKiBDb2x1bW4gc2VsZWN0aW9uIG1vZGUgKi9cbiAgICBjdXJzb3I6IGNyb3NzaGFpcjtcbn1cblxuLnh0ZXJtIC54dGVybS1hY2Nlc3NpYmlsaXR5Om5vdCguZGVidWcpLFxuLnh0ZXJtIC54dGVybS1tZXNzYWdlIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgbGVmdDogMDtcbiAgICB0b3A6IDA7XG4gICAgYm90dG9tOiAwO1xuICAgIHJpZ2h0OiAwO1xuICAgIHotaW5kZXg6IDEwO1xuICAgIGNvbG9yOiB0cmFuc3BhcmVudDtcbiAgICBwb2ludGVyLWV2ZW50czogbm9uZTtcbn1cblxuLnh0ZXJtIC54dGVybS1hY2Nlc3NpYmlsaXR5LXRyZWU6bm90KC5kZWJ1ZykgKjo6c2VsZWN0aW9uIHtcbiAgY29sb3I6IHRyYW5zcGFyZW50O1xufVxuXG4ueHRlcm0gLnh0ZXJtLWFjY2Vzc2liaWxpdHktdHJlZSB7XG4gIHVzZXItc2VsZWN0OiB0ZXh0O1xuICB3aGl0ZS1zcGFjZTogcHJlO1xufVxuXG4ueHRlcm0gLmxpdmUtcmVnaW9uIHtcbiAgICBwb3NpdGlvbjogYWJzb2x1dGU7XG4gICAgbGVmdDogLTk5OTlweDtcbiAgICB3aWR0aDogMXB4O1xuICAgIGhlaWdodDogMXB4O1xuICAgIG92ZXJmbG93OiBoaWRkZW47XG59XG5cbi54dGVybS1kaW0ge1xuICAgIC8qIERpbSBzaG91bGQgbm90IGFwcGx5IHRvIGJhY2tncm91bmQsIHNvIHRoZSBvcGFjaXR5IG9mIHRoZSBmb3JlZ3JvdW5kIGNvbG9yIGlzIGFwcGxpZWRcbiAgICAgKiBleHBsaWNpdGx5IGluIHRoZSBnZW5lcmF0ZWQgY2xhc3MgYW5kIHJlc2V0IHRvIDEgaGVyZSAqL1xuICAgIG9wYWNpdHk6IDEgIWltcG9ydGFudDtcbn1cblxuLnh0ZXJtLXVuZGVybGluZS0xIHsgdGV4dC1kZWNvcmF0aW9uOiB1bmRlcmxpbmU7IH1cbi54dGVybS11bmRlcmxpbmUtMiB7IHRleHQtZGVjb3JhdGlvbjogZG91YmxlIHVuZGVybGluZTsgfVxuLnh0ZXJtLXVuZGVybGluZS0zIHsgdGV4dC1kZWNvcmF0aW9uOiB3YXZ5IHVuZGVybGluZTsgfVxuLnh0ZXJtLXVuZGVybGluZS00IHsgdGV4dC1kZWNvcmF0aW9uOiBkb3R0ZWQgdW5kZXJsaW5lOyB9XG4ueHRlcm0tdW5kZXJsaW5lLTUgeyB0ZXh0LWRlY29yYXRpb246IGRhc2hlZCB1bmRlcmxpbmU7IH1cblxuLnh0ZXJtLW92ZXJsaW5lIHtcbiAgICB0ZXh0LWRlY29yYXRpb246IG92ZXJsaW5lO1xufVxuXG4ueHRlcm0tb3ZlcmxpbmUueHRlcm0tdW5kZXJsaW5lLTEgeyB0ZXh0LWRlY29yYXRpb246IG92ZXJsaW5lIHVuZGVybGluZTsgfVxuLnh0ZXJtLW92ZXJsaW5lLnh0ZXJtLXVuZGVybGluZS0yIHsgdGV4dC1kZWNvcmF0aW9uOiBvdmVybGluZSBkb3VibGUgdW5kZXJsaW5lOyB9XG4ueHRlcm0tb3ZlcmxpbmUueHRlcm0tdW5kZXJsaW5lLTMgeyB0ZXh0LWRlY29yYXRpb246IG92ZXJsaW5lIHdhdnkgdW5kZXJsaW5lOyB9XG4ueHRlcm0tb3ZlcmxpbmUueHRlcm0tdW5kZXJsaW5lLTQgeyB0ZXh0LWRlY29yYXRpb246IG92ZXJsaW5lIGRvdHRlZCB1bmRlcmxpbmU7IH1cbi54dGVybS1vdmVybGluZS54dGVybS11bmRlcmxpbmUtNSB7IHRleHQtZGVjb3JhdGlvbjogb3ZlcmxpbmUgZGFzaGVkIHVuZGVybGluZTsgfVxuXG4ueHRlcm0tc3RyaWtldGhyb3VnaCB7XG4gICAgdGV4dC1kZWNvcmF0aW9uOiBsaW5lLXRocm91Z2g7XG59XG5cbi54dGVybS1zY3JlZW4gLnh0ZXJtLWRlY29yYXRpb24tY29udGFpbmVyIC54dGVybS1kZWNvcmF0aW9uIHtcblx0ei1pbmRleDogNjtcblx0cG9zaXRpb246IGFic29sdXRlO1xufVxuXG4ueHRlcm0tc2NyZWVuIC54dGVybS1kZWNvcmF0aW9uLWNvbnRhaW5lciAueHRlcm0tZGVjb3JhdGlvbi54dGVybS1kZWNvcmF0aW9uLXRvcC1sYXllciB7XG5cdHotaW5kZXg6IDc7XG59XG5cbi54dGVybS1kZWNvcmF0aW9uLW92ZXJ2aWV3LXJ1bGVyIHtcbiAgICB6LWluZGV4OiA4O1xuICAgIHBvc2l0aW9uOiBhYnNvbHV0ZTtcbiAgICB0b3A6IDA7XG4gICAgcmlnaHQ6IDA7XG4gICAgcG9pbnRlci1ldmVudHM6IG5vbmU7XG59XG5cbi54dGVybS1kZWNvcmF0aW9uLXRvcCB7XG4gICAgei1pbmRleDogMjtcbiAgICBwb3NpdGlvbjogcmVsYXRpdmU7XG59XG4iXSwKICAibWFwcGluZ3MiOiAiO0FBcUNBO0FBQ0k7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUFBO0FBR0o7QUFBQTtBQUVJO0FBQUE7QUFHSjtBQUNJO0FBQ0E7QUFLQTtBQUFBO0FBR0o7QUFDSTtBQUNBO0FBQ0E7QUFFQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUVBO0FBQ0E7QUFDQTtBQUFBO0FBR0o7QUFFSTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFBQTtBQUdKO0FBQ0k7QUFBQTtBQUdKO0FBRUk7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUFBO0FBR0o7QUFDSTtBQUFBO0FBR0o7QUFDSTtBQUNBO0FBQ0E7QUFBQTtBQUdKO0FBQ0k7QUFBQTtBQUdKO0FBQ0k7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQUE7QUFHSjtBQUVJO0FBQUE7QUFHSjtBQUFBO0FBRUk7QUFBQTtBQUdKO0FBRUk7QUFBQTtBQUdKO0FBQUE7QUFFSTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUNBO0FBQUE7QUFHSjtBQUNFO0FBQUE7QUFHRjtBQUNFO0FBQ0E7QUFBQTtBQUdGO0FBQ0k7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUFBO0FBR0o7QUFHSTtBQUFBO0FBR0o7QUFBcUI7QUFBQTtBQUNyQjtBQUFxQjtBQUFBO0FBQ3JCO0FBQXFCO0FBQUE7QUFDckI7QUFBcUI7QUFBQTtBQUNyQjtBQUFxQjtBQUFBO0FBRXJCO0FBQ0k7QUFBQTtBQUdKO0FBQW9DO0FBQUE7QUFDcEM7QUFBb0M7QUFBQTtBQUNwQztBQUFvQztBQUFBO0FBQ3BDO0FBQW9DO0FBQUE7QUFDcEM7QUFBb0M7QUFBQTtBQUVwQztBQUNJO0FBQUE7QUFHSjtBQUNDO0FBQ0E7QUFBQTtBQUdEO0FBQ0M7QUFBQTtBQUdEO0FBQ0k7QUFDQTtBQUNBO0FBQ0E7QUFDQTtBQUFBO0FBR0o7QUFDSTtBQUNBO0FBQUE7IiwKICAibmFtZXMiOiBbXQp9Cg== */
+  

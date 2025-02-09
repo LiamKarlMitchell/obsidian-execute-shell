@@ -8,7 +8,7 @@ import {
 	PluginSettingTab,
 	Setting,
 } from "obsidian";
-import { exec } from "child_process";
+
 import { writeFile, unlink, readFile } from "fs";
 import { tmpdir, homedir } from "os";
 import { join } from "path";
@@ -22,7 +22,8 @@ import {
 } from "@codemirror/view";
 import { RangeSetBuilder } from "@codemirror/state";
 import { TerminalOutputView } from "./TerminalOutputView";
-import AnsiUp from "ansi_up";
+
+// import "@xterm/xterm/css/xterm.css";
 
 // // @ts-expect-error, not typed
 //const editorView = view.editor.cm as EditorView;
@@ -341,20 +342,7 @@ export default class MyPlugin extends Plugin {
 	}
 
 	private reallyRunTheCode(command: string, tempFilePath: string) {
-		const process = exec(command);
-		const terminalOutputView = new TerminalOutputView(this, command, process);
-
-		process.stdout.on("data", (data) => {
-			terminalOutputView.appendOutput(data);
-		});
-
-		process.stderr.on("data", (data) => {
-			terminalOutputView.appendOutput(data);
-		});
-
-		process.on("close", (exitCode) => {
-			terminalOutputView.setStatus(exitCode);
-		});
+		const terminalOutputView = new TerminalOutputView(this, command);
 	}
 
 	createRunButtonExtension() {
