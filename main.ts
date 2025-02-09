@@ -41,9 +41,18 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 
 const IS_WINDOWS = process.platform === "win32";
 
+function debounce(func: (...args: any[]) => void, wait: number) {
+	let timeout: NodeJS.Timeout;
+	return function (...args: any[]) {
+		clearTimeout(timeout);
+		timeout = setTimeout(() => func.apply(this, args), wait);
+	};
+}
+
 export default class MyPlugin extends Plugin {
 	settings: MyPluginSettings;
 	settingTab: SampleSettingTab;
+	debouncedRunCommand: (codeBlock: { language: string; codeBlock: string }) => void;
 
 	async onload() {
 		await this.loadSettings();
@@ -82,12 +91,14 @@ export default class MyPlugin extends Plugin {
 			},
 		});
 
+		this.debouncedRunCommand = debounce(this.runCommand.bind(this), 350);
+
 		this.settingTab = new SampleSettingTab(this.app, this);
 		this.addSettingTab(this.settingTab);
 
-		this.registerDomEvent(document, "click", (evt: MouseEvent) => {
-			console.log("click", evt);
-		});
+		// this.registerDomEvent(document, "click", (evt: MouseEvent) => {
+		// 	console.log("click", evt);
+		// });
 
 		this.registerEditorExtension(this.createRunButtonExtension());
 	}
@@ -143,8 +154,6 @@ export default class MyPlugin extends Plugin {
 
 		// TODO: There must be a better way to get the codeblock using the editor view.
 
-		console.log(`Cursor: ${cursor.line} ${cursor.ch}}`);
-
 		// Return if cursor is possibly at end of a code block we will go up one.
 		// Although this will fail if first line.
 		if (cursor.ch >= 0 && cursor.ch <= 3 && editor.getLine(startLine).endsWith("```")) {
@@ -163,7 +172,7 @@ export default class MyPlugin extends Plugin {
 			endLine++;
 		}
 
-		console.log(`Code block start: ${startLine} end: ${endLine}`);
+		//console.log(`Code block start: ${startLine} end: ${endLine}`);
 		// let range = editor.getDoc().getRange({ line: startLine, ch: 0 }, { line: endLine, ch: 0 });
 		// console.log(range);
 
@@ -538,11 +547,29 @@ class RunButtonWidget extends WidgetType {
 
 	toDOM() {
 		const button = document.createElement("button");
-		button.textContent = "Run";
-		button.style.backgroundColor = "green";
-		button.style.color = "white";
+		button.style.backgroundColor = "transparent";
 		button.style.border = "none";
+		button.style.boxShadow = "none";
 		button.style.cursor = "pointer";
+		button.style.padding = "0";
+		button.style.margin = "0";
+
+		const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		svg.setAttribute("width", "16");
+		svg.setAttribute("height", "16");
+		svg.setAttribute("viewBox", "0 0 24 24");
+		svg.setAttribute("fill", "green");
+		svg.setAttribute("stroke", "transparent");
+		svg.setAttribute("stroke-width", "2");
+		svg.setAttribute("stroke-linecap", "round");
+		svg.setAttribute("stroke-linejoin", "round");
+
+		const polygon = document.createElementNS("http://www.w3.org/2000/svg", "polygon");
+		polygon.setAttribute("points", "5 3 19 12 5 21 5 3");
+
+		svg.appendChild(polygon);
+		button.appendChild(svg);
+
 		button.onclick = () => {
 			const codeBlock = this.plugin.getCodeBlockUnderCursor({
 				getCursor: () => ({
@@ -553,7 +580,12 @@ class RunButtonWidget extends WidgetType {
 				lineCount: () => this.view.state.doc.lines,
 			});
 			if (codeBlock) {
-				this.plugin.runCommand(codeBlock);
+				this.plugin.debouncedRunCommand(codeBlock);
+
+				// Work around for text being selected if user double clicks.
+				this.view.dispatch({
+					selection: { anchor: this.from, head: this.from }
+				});
 			}
 		};
 		return button;
