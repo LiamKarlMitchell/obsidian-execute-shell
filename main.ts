@@ -30,6 +30,7 @@ interface MyPluginSettings {
 	autoDiscoverWSL: boolean;
 	blacklistEnabled: boolean;
 	blacklist: string[];
+	promptBeforeRun: boolean;
 }
 
 const DEFAULT_SETTINGS: MyPluginSettings = {
@@ -37,6 +38,7 @@ const DEFAULT_SETTINGS: MyPluginSettings = {
 	autoDiscoverWSL: true,
 	blacklistEnabled: true,
 	blacklist: ["format", "del", "rmdir", "rm", "shutdown", "reboot", "/etc/passwd"],
+	promptBeforeRun: false,
 };
 
 const IS_WINDOWS = process.platform === "win32";
@@ -287,9 +289,8 @@ export default class MyPlugin extends Plugin {
 					command = `node --import=tsx "${tempFilePath}"`;
 					break;
 				case "html":
-					// TODO: A way to open in preview?
 					tempFilePath = join(tmpdir(), `temp-script.html`);
-					command = `start "${tempFilePath}"`;
+					command = `start "" "${tempFilePath}"`;
 					break;
 				default:
 					new ErrorModal(
@@ -304,6 +305,10 @@ export default class MyPlugin extends Plugin {
 				case "bash":
 					tempFilePath = join(tmpdir(), `temp-script.sh`);
 					command = `bash "${tempFilePath}"`;
+					break;
+				case "html":
+					tempFilePath = join(tmpdir(), `temp-script.html`);
+					command = `xdg-open "${tempFilePath}"`;
 					break;
 				default:
 					new ErrorModal(
@@ -325,19 +330,37 @@ export default class MyPlugin extends Plugin {
 
 			//console.log(`Temporary file created at: ${tempFilePath}`);
 
-			// exec(command, (execErr, stdout, stderr) => {
-			// 	// unlink(tempFilePath, (unlinkErr) => {
-			// 	// 	if (unlinkErr) {
-			// 	// 		console.error(`Failed to delete temp file: ${unlinkErr.message}`);
-			// 	// 	}
-			// 	// });
+			this.reallyRunTheCode(language, codeBlock, command);
+		});
+	}
 
-			// 	if (execErr) {
-			// 		new ErrorModal(this.app, command + "\n" + stderr).open();
-			// 	} else {
-			// 		new OutputModal(this.app, stdout).open();
+	private reallyRunTheCode(language: string, codeBlock: string, command: string) {
+		if (this.settings.promptBeforeRun) {
+			new PromptBeforeRunModal(this.app, language, codeBlock, command, () => {
+				this.runTheCode(command);
+			}).open();
+		} else {
+			this.runTheCode(command);
+		}
+	}
+
+// TODO: Show output as it is running and get time taken to run?
+
+	private runTheCode(command: string) {
+		exec(command, (execErr, stdout, stderr) => {
+			// TODO: Setting for cleanup?
+			// unlink(tempFilePath, (unlinkErr) => {
+			// 	if (unlinkErr) {
+			// 		console.error(`Failed to delete temp file: ${unlinkErr.message}`);
 			// 	}
 			// });
+			if (execErr) {
+				new ErrorModal(this.app, command + "\n" + stderr).open();
+			} else {
+				if (stdout.trim().length > 0) {
+					new OutputModal(this.app, stdout).open();
+				}
+			}
 		});
 	}
 
@@ -475,6 +498,18 @@ class SampleSettingTab extends PluginSettingTab {
 						this.plugin.settings.blacklist = value
 							.split(",")
 							.map((cmd) => cmd.trim());
+						await this.plugin.saveSettings();
+					})
+			);
+
+		new Setting(containerEl)
+			.setName("Prompt Before Run")
+			.setDesc("Prompt before running code and show the code and command.")
+			.addToggle((toggle) =>
+				toggle
+					.setValue(this.plugin.settings.promptBeforeRun)
+					.onChange(async (value) => {
+						this.plugin.settings.promptBeforeRun = value;
 						await this.plugin.saveSettings();
 					})
 			);
@@ -635,6 +670,54 @@ class ConfirmationModal extends Modal {
 
 		const cancelButton = document.createElement("button");
 		cancelButton.textContent = "No";
+		cancelButton.onclick = () => this.close();
+		buttonContainer.appendChild(cancelButton);
+
+		contentEl.appendChild(buttonContainer);
+	}
+
+	onClose() {
+		const { contentEl } = this;
+		contentEl.empty();
+	}
+}
+
+class PromptBeforeRunModal extends Modal {
+	language: string;
+	codeBlock: string;
+	command: string;
+	onConfirm: () => void;
+
+	constructor(app: App, language: string, codeBlock: string, command: string, onConfirm: () => void) {
+		super(app);
+		this.language = language;
+		this.codeBlock = codeBlock;
+		this.command = command;
+		this.onConfirm = onConfirm;
+	}
+
+	onOpen() {
+		const { contentEl } = this;
+		contentEl.empty();
+		contentEl.addClass("prompt-before-run");
+
+		const pre = document.createElement("pre");
+		pre.textContent = `Language: ${this.language}\nCommand: ${this.command}\n\nCode:\n${this.codeBlock}`;
+		contentEl.appendChild(pre);
+
+		const buttonContainer = document.createElement("div");
+		buttonContainer.style.marginTop = "10px";
+
+		const confirmButton = document.createElement("button");
+		confirmButton.textContent = "Run";
+		confirmButton.onclick = () => {
+			this.onConfirm();
+			this.close();
+		};
+		buttonContainer.appendChild(confirmButton);
+
+		const cancelButton = document.createElement("button");
+		cancelButton.textContent = "Cancel";
 		cancelButton.onclick = () => this.close();
 		buttonContainer.appendChild(cancelButton);
 

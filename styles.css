@@ -31,3 +31,23 @@ If your plugin does not need CSS, delete this file.
 	word-wrap: break-word;
 	overflow-y: auto;
 }
+
+.prompt-before-run {
+	font-family: "Courier New", Courier, monospace;
+	background-color: #1e1e1e;
+	color: #d4d4d4;
+	padding: 10px;
+	border-radius: 5px;
+	overflow-y: auto;
+	max-height: 70vh;
+	max-width: 70vw;
+	white-space: pre-wrap;
+	user-select: text;
+}
+
+.prompt-before-run pre {
+	margin: 0;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	overflow-y: auto;
+}
