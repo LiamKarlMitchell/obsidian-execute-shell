@@ -21,6 +21,8 @@ import {
 	WidgetType,
 } from "@codemirror/view";
 import { RangeSetBuilder } from "@codemirror/state";
+import { TerminalOutputView } from "./TerminalOutputView";
+import AnsiUp from "ansi_up";
 
 // // @ts-expect-error, not typed
 //const editorView = view.editor.cm as EditorView;
@@ -328,39 +330,30 @@ export default class MyPlugin extends Plugin {
 				return;
 			}
 
-			//console.log(`Temporary file created at: ${tempFilePath}`);
-
-			this.reallyRunTheCode(language, codeBlock, command);
+			if (this.settings.promptBeforeRun) {
+				new PromptBeforeRunModal(this.app, language, codeBlock, command, () => {
+					this.reallyRunTheCode(command, tempFilePath);
+				}).open();
+			} else {
+				this.reallyRunTheCode(command, tempFilePath);
+			}
 		});
 	}
 
-	private reallyRunTheCode(language: string, codeBlock: string, command: string) {
-		if (this.settings.promptBeforeRun) {
-			new PromptBeforeRunModal(this.app, language, codeBlock, command, () => {
-				this.runTheCode(command);
-			}).open();
-		} else {
-			this.runTheCode(command);
-		}
-	}
+	private reallyRunTheCode(command: string, tempFilePath: string) {
+		const process = exec(command);
+		const terminalOutputView = new TerminalOutputView(this, command, process);
 
-// TODO: Show output as it is running and get time taken to run?
+		process.stdout.on("data", (data) => {
+			terminalOutputView.appendOutput(data);
+		});
 
-	private runTheCode(command: string) {
-		exec(command, (execErr, stdout, stderr) => {
-			// TODO: Setting for cleanup?
-			// unlink(tempFilePath, (unlinkErr) => {
-			// 	if (unlinkErr) {
-			// 		console.error(`Failed to delete temp file: ${unlinkErr.message}`);
-			// 	}
-			// });
-			if (execErr) {
-				new ErrorModal(this.app, command + "\n" + stderr).open();
-			} else {
-				if (stdout.trim().length > 0) {
-					new OutputModal(this.app, stdout).open();
-				}
-			}
+		process.stderr.on("data", (data) => {
+			terminalOutputView.appendOutput(data);
+		});
+
+		process.on("close", (exitCode) => {
+			terminalOutputView.setStatus(exitCode);
 		});
 	}
 
